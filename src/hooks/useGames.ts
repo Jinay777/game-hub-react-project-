@@ -18,20 +18,20 @@ export interface Game {
 const useGames = (gameQuery: GameQuery) =>
   useInfiniteQuery<FetchResponse<Game>, Error>({
     queryKey: ["games", gameQuery],
-    queryFn: ({pageParam=1}) =>
+    queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
-          genres: gameQuery.genre?.id,
-          parent_platform: gameQuery.platform?.id,
+          genres: gameQuery.genreId,
+          parent_platform: gameQuery.platformId,
           ordering: gameQuery.sortOrder,
           search: gameQuery.searchText,
-          page:pageParam,
+          page: pageParam,
         },
       }),
-      getNextPageParam:(lastPage,allPages)=>{
-        return lastPage.next?allPages.length+1:undefined;
-      },
-      staleTime:24*60*60*1000,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.next ? allPages.length + 1 : undefined;
+    },
+    staleTime: 24 * 60 * 60 * 1000,
   });
 
 export default useGames;
