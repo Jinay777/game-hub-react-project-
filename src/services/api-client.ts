@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { Game } from "../hooks/useGames";
 
 export interface FetchResponse<T> {
   count: number;
@@ -26,6 +27,12 @@ class APIClient<T> {
       config
     );
     return res.data;
+  };
+
+  get = (id: string | number) => {
+    return axiosInstance
+      .get<T>(this.endpoint + "/" + id)
+      .then((res) => res.data);
   };
 }
 
